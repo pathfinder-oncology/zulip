@@ -1,0 +1,336 @@
+/* Pathfinder custom styling.
+
+   Restyles the web app into a classic team-chat layout: a dark
+   purple top bar and channel sidebar framing a flat, white message
+   area. Imported last in web/src/bundles/app.ts so these rules win
+   over Zulip's own at equal specificity.
+
+   How the dark chrome works: Zulip defines nearly every color as
+   light-dark(LIGHT, DARK), which resolves per element using that
+   element's `color-scheme`. Setting `color-scheme: dark` on the top
+   bar and left sidebar makes them use Zulip's own (well-tested) dark
+   palette in both themes; we then only swap the background colors to
+   Pathfinder purple. Because light-dark() would always resolve to its
+   dark half inside those regions, the --pf-* tokens below are switched
+   with the theme classes instead of light-dark().
+
+   When upgrading Zulip, re-check the selectors marked "upgrade check"
+   against the new release; they target Zulip markup that can change. */
+
+@font-face {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url("../pathfinder/fonts/InterVariable.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: Inter;
+    font-style: italic;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url("../pathfinder/fonts/InterVariable-Italic.woff2") format("woff2");
+}
+
+/* ---------- Tokens ---------- */
+
+:root {
+    /* stylelint-disable color-no-hex */
+    /* Top bar and the frame around the app. */
+    --pf-frame: #3b2551;
+    /* Channel sidebar, one step lighter than the frame. */
+    --pf-sidebar: #4b3065;
+    --pf-sidebar-hover: color-mix(in srgb, #fff 9%, var(--pf-sidebar));
+    --pf-sidebar-text: rgb(255 255 255 / 75%);
+    --pf-sidebar-text-strong: #fff;
+    /* Pathfinder blue, darkened to give white text 5:1 contrast. */
+    --pf-accent: #1b74ab;
+    --pf-accent-hover: #17648f;
+    --pf-search-background: color-mix(in srgb, #fff 16%, var(--pf-frame));
+    --pf-header-button-hover: color-mix(in srgb, #fff 12%, var(--pf-frame));
+    --pf-header-button-focus: color-mix(in srgb, #fff 18%, var(--pf-frame));
+
+    /* Message area. */
+    --pf-main: #fff;
+    --pf-row-hover: #f8f8f8;
+    --pf-divider: #e2e2e2;
+    --pf-text: #1d1c1d;
+    --pf-text-secondary: #616061;
+    --pf-mention-background: #fdf5e4;
+    --pf-compose-border: rgb(29 28 29 / 30%);
+    --pf-compose-border-focus: rgb(29 28 29 / 55%);
+    /* stylelint-enable color-no-hex */
+}
+
+%pf-dark-tokens {
+    /* stylelint-disable color-no-hex */
+    --pf-frame: #1b1620;
+    --pf-sidebar: #221b2a;
+    --pf-mention-background: #3a321f;
+    --pf-main: #1a1d21;
+    --pf-row-hover: #222529;
+    --pf-divider: #35373b;
+    --pf-text: #d1d2d3;
+    --pf-text-secondary: #ababad;
+    --pf-compose-border: rgb(255 255 255 / 20%);
+    --pf-compose-border-focus: rgb(255 255 255 / 40%);
+    /* stylelint-enable color-no-hex */
+}
+
+/* Same selectors Zulip uses to apply its dark theme
+   (app_variables.css); see theme.ts. */
+@media screen {
+    :root.dark-theme {
+        @extend %pf-dark-tokens;
+    }
+}
+
+@media screen and (prefers-color-scheme: dark) {
+    :root.color-scheme-automatic {
+        @extend %pf-dark-tokens;
+    }
+}
+
+/* Flatten the message area to one surface color. Many sticky
+   elements paint --color-background to mask what scrolls under
+   them, so this has to change at the root, not per element. */
+:root {
+    --color-background: var(--pf-main);
+    --color-background-stream-message-content: var(--pf-main);
+    --color-background-private-message-content: var(--pf-main);
+    --color-background-private-message-header: var(--pf-main);
+    --color-background-direct-mention: var(--pf-mention-background);
+    --color-background-group-mention: var(--pf-mention-background);
+    --color-message-list-border: transparent;
+    --color-message-header-contents-border: transparent;
+    --color-message-header-contents-border-bottom: var(--pf-divider);
+    --color-text-message-default: var(--pf-text);
+    --color-date: var(--pf-text-secondary);
+    --color-selected-message-outline: color-mix(
+        in srgb,
+        var(--pf-accent) 55%,
+        transparent
+    );
+
+    /* Compose box: white field with a quiet border. */
+    --color-compose-box-background: var(--pf-main);
+    --color-compose-message-content-background: var(--pf-main);
+    --color-border-compose-content: var(--pf-divider);
+    --color-message-formatting-controls-container: transparent;
+    --color-message-content-container-border: var(--pf-compose-border);
+    --color-message-content-container-border-focus: var(
+        --pf-compose-border-focus
+    );
+    --color-compose-send-button-background: var(--pf-accent);
+    --color-compose-send-button-background-interactive: var(
+        --pf-accent-hover
+    );
+}
+
+/* ---------- Typography ---------- */
+
+body {
+    font-family: Inter, "Source Sans 3 VF", sans-serif;
+}
+
+/* tooltips.css forces its font with !important. */
+[data-tippy-root] {
+    font-family: Inter, "Source Sans 3 VF", sans-serif !important;
+    /* ss01 picks a Source Sans capital I; in Inter it would
+       swap in alternate digits instead. */
+    font-feature-settings: normal;
+}
+
+/* ---------- Top bar ---------- */
+
+.header {
+    color-scheme: dark;
+    color: var(--color-text-default);
+
+    --color-background: var(--pf-frame);
+    --color-background-navbar: var(--pf-frame);
+    --color-navbar-bottom-border: transparent;
+    --color-navbar-icon: var(--pf-sidebar-text);
+    --color-header-button-hover: var(--pf-header-button-hover);
+    --color-header-button-hover-no-alpha: var(--pf-header-button-hover);
+    --color-header-button-focus: var(--pf-header-button-focus);
+    --color-header-button-focus-no-alpha: var(--pf-header-button-focus);
+    --color-background-search: var(--pf-search-background);
+    --color-background-search-collapsed: var(--pf-search-background);
+}
+
+/* Replace the organization logo with the reversed Pathfinder
+   logo. The padding trick pushes the <img>'s own source out of
+   its box so only the background shows, which works whatever logo
+   is uploaded in Organization settings. The logo is about 3.17:1.
+   Upgrade check: navbar.hbs, zulip.css `nav .column-left`. */
+#top_navbar .column-left .nav-logo {
+    box-sizing: border-box;
+    width: 5.87em;
+    height: 1.85em;
+    padding-left: 5.87em;
+    background: url("../pathfinder/images/pathfinder-logo-white.png") left
+        center / contain no-repeat;
+
+    @media (height < $short_navbar_cutoff_height) {
+        width: 4.44em;
+        height: 1.4em;
+        padding-left: 4.44em;
+    }
+}
+
+/* ---------- Left sidebar ---------- */
+
+.app-main .column-left .left-sidebar {
+    color-scheme: dark;
+    color: var(--pf-sidebar-text);
+    background-color: var(--pf-sidebar);
+    /* Stretch to the bottom of the window even when the channel
+       list is short. */
+    top: 0;
+    bottom: 0;
+
+    /* Sticky section headers paint --color-background. */
+    --color-background: var(--pf-sidebar);
+    --color-left-sidebar-middle-box-shadow: var(--pf-sidebar);
+    --color-text-sidebar-row: var(--pf-sidebar-text);
+    --color-text-active-narrow-filter: var(--pf-sidebar-text-strong);
+    --color-background-active-narrow-filter: var(--pf-accent);
+    --color-background-hover-narrow-filter: var(--pf-sidebar-hover);
+    --color-shadow-sidebar-row-hover: transparent;
+}
+
+/* Unread channels read bold and bright; read ones stay muted.
+   Muted channels (.out_of_home_view) count their unreads too, so
+   only bold them when they have unmuted unreads, e.g. a followed
+   topic. Upgrade check: stream_list.ts update_count_in_dom. */
+#stream_filters
+    .narrow-filter:not(.out_of_home_view)
+    .subscription_block.stream-with-count:not(.has-only-muted-unreads)
+    .stream-name,
+#stream_filters
+    .narrow-filter.out_of_home_view
+    .subscription_block.has-unmuted-unreads
+    .stream-name,
+#left-sidebar .dm-list-item:not(.zero-dm-unreads) .conversation-partners,
+#left-sidebar
+    .top_left_row:has(.unread_count:not(.hide, :empty))
+    .left-sidebar-navigation-label {
+    color: var(--pf-sidebar-text-strong);
+    font-weight: 700;
+}
+
+/* A channel's <li> wraps both its row and its topic list, so
+   highlight only the channel row rather than the whole block.
+   Upgrade check: stream_sidebar_row.hbs, left_sidebar.css
+   `li.active-filter`. */
+#stream_filters li.narrow-filter.active-filter {
+    background-color: transparent;
+
+    &:hover {
+        background-color: transparent;
+    }
+
+    > .bottom_left_row {
+        color: var(--pf-sidebar-text-strong);
+        background-color: var(--pf-accent);
+    }
+
+    .topic-list .sidebar-topic-check {
+        background-color: var(--pf-sidebar);
+    }
+
+    .topic-list .bottom_left_row:hover .sidebar-topic-check {
+        background-color: var(--pf-sidebar-hover);
+    }
+
+    .topic-list .active-sub-filter .sidebar-topic-check {
+        background-color: var(--pf-accent);
+    }
+}
+
+/* Mirrors left_sidebar.css, which otherwise fills every topic row
+   with the active color while the channel row has keyboard focus. */
+#stream_filters
+    .narrow-filter:has(a.subscription_block:focus-visible).active-filter
+    .topic-list
+    .bottom_left_row:not(.active-sub-filter) {
+    background-color: transparent;
+
+    .sidebar-topic-check {
+        background-color: var(--pf-sidebar);
+    }
+}
+
+/* ---------- Right sidebar ---------- */
+
+.app-main .column-right .right-sidebar {
+    /* Run the divider to the bottom of the window. */
+    top: 0;
+    bottom: 0;
+    box-shadow: inset 1px 0 0 var(--pf-divider);
+}
+
+/* ---------- Message list ---------- */
+
+.message-feed .recipient_row {
+    border-radius: 0;
+    margin-bottom: 0.75em;
+
+    .message_row:last-of-type {
+        border-radius: 0;
+
+        .messagebox {
+            border-radius: 0;
+        }
+    }
+}
+
+/* Recipient bars carry the channel color as an inline style;
+   drop it for a flat header row. Upgrade check: recipient_row.hbs. */
+.message_header .message-header-contents {
+    background: var(--color-background) !important;
+    border-radius: 0;
+}
+
+.message_header_stream .message_label_clickable {
+    font-weight: 700;
+}
+
+.message-feed .message_row:not(.direct_mention, .group_mention):hover {
+    background-color: var(--pf-row-hover);
+}
+
+.selected_message .messagebox-content {
+    border-radius: 6px;
+}
+
+/* Rounded-square avatars. */
+.inline_profile_picture,
+.user_sidebar_entry.with_avatar .user-profile-picture {
+    border-radius: 22%;
+}
+
+.message_row .sender_name {
+    color: var(--pf-text);
+    font-weight: 800;
+}
+
+.message_row .message-time {
+    color: var(--pf-text-secondary);
+}
+
+/* ---------- Compose ---------- */
+
+#compose-content {
+    border-radius: 8px 8px 0 0;
+}
+
+#message-content-container {
+    border-radius: 8px;
+}
+
+.compose-send-or-save-button {
+    border-radius: 6px;
+}

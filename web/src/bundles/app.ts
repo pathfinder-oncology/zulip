@@ -63,6 +63,8 @@ import "../../styles/color_picker.css";
 import "../../styles/animate.css";
 import "@uppy/core/css/style.min.css";
 import "@uppy/image-editor/css/style.min.css";
+// Pathfinder overrides; keep after all other stylesheets.
+import "../../styles/pathfinder.css";
 
 // This should be last.
 import "../ui_init.js";

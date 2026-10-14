@@ -1,9 +1,13 @@
 import $ from "jquery";
 
-import {user_settings} from "./user_settings.ts";
+// Pathfinder: the layout always fills the window, whatever the
+// "Use full width on wide screens" preference says.
+function using_fluid_layout_width(): boolean {
+    return true;
+}
 
 export function set_layout_width(): void {
-    if (user_settings.fluid_layout_width) {
+    if (using_fluid_layout_width()) {
         $("body").addClass("fluid_layout_width");
     } else {
         $("body").removeClass("fluid_layout_width");
@@ -18,7 +22,7 @@ export function handle_overlay_scrollbars(): void {
         const max_app_width = 1400;
         const max_scrollbar_width = 20;
         const are_scrollbars_overlapping = window.innerWidth < max_app_width + max_scrollbar_width;
-        if (user_settings.fluid_layout_width || are_scrollbars_overlapping) {
+        if (using_fluid_layout_width() || are_scrollbars_overlapping) {
             $("body").addClass("has-overlay-scrollbar");
             return;
         }
