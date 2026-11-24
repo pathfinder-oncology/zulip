@@ -705,7 +705,7 @@ importers:
     devDependencies:
       '@astrojs/check':
         specifier: ^0.9.3
-        version: 0.9.10(@emnapi/runtime@1.11.3)(@typescript/typescript6@6.0.2)(prettier-plugin-astro@1.1.0(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(prettier@3.9.9))(prettier@3.9.9)
+        version: 0.9.10(@emnapi/runtime@1.11.3)(@typescript/typescript6@6.0.2)(prettier-plugin-astro@1.1.0(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(prettier@3.9.9))(prettier@3.9.9)
       '@types/hast':
         specifier: ^3.0.4
         version: 3.0.5
@@ -9074,8 +9074,8 @@ packages:
     resolution: {integrity: sha512-1gnZf7DFcoIcajTjTwjwuDjzuz4PPcY2StKPlsGAQ1+YH20IRVrBaXSWmdjowTJ6u8Rc01PoYOGHXfP1mYcZNQ==}
     engines: {node: '>= 18'}
 
-  serialize-javascript@7.1.2:
-    resolution: {integrity: sha512-GL2BWwVa6JydKO6l/ljVgjAZF4QJ3S7dWDWi53s5GZT8PJzD2fNxi67HANQGKAqPrwEpL5ba7gUBGi0Ls/sEoQ==}
+  serialize-javascript@7.1.4:
+    resolution: {integrity: sha512-FqlEuoTq/zRmA4Lg6aOqyH3lCHbUtCB0bmHCeFniX2GBdDqMJM3FwdvEhlE5Pim1dlt2FfBdVPmUNNiGhhKqpw==}
     engines: {node: '>=20.0.0'}
 
   serve-index@1.9.2:
@@ -10648,9 +10648,9 @@ snapshots:
     transitivePeerDependencies:
       - '@emnapi/runtime'
 
-  '@astrojs/check@0.9.10(@emnapi/runtime@1.11.3)(@typescript/typescript6@6.0.2)(prettier-plugin-astro@1.1.0(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(prettier@3.9.9))(prettier@3.9.9)':
+  '@astrojs/check@0.9.10(@emnapi/runtime@1.11.3)(@typescript/typescript6@6.0.2)(prettier-plugin-astro@1.1.0(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(prettier@3.9.9))(prettier@3.9.9)':
     dependencies:
-      '@astrojs/language-server': 2.17.1(@emnapi/runtime@1.11.3)(@typescript/typescript6@6.0.2)(prettier-plugin-astro@1.1.0(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(prettier@3.9.9))(prettier@3.9.9)
+      '@astrojs/language-server': 2.17.1(@emnapi/runtime@1.11.3)(@typescript/typescript6@6.0.2)(prettier-plugin-astro@1.1.0(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(prettier@3.9.9))(prettier@3.9.9)
       chokidar: 4.0.3
       kleur: 4.1.5
       typescript: '@typescript/typescript6@6.0.2'
@@ -10702,6 +10702,14 @@ snapshots:
   '@astrojs/compiler-binding-linux-x64-musl@0.5.1':
     optional: true
 
+  '@astrojs/compiler-binding-wasm32-wasi@0.4.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)':
+    dependencies:
+      '@napi-rs/wasm-runtime': 1.2.4(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)
+    transitivePeerDependencies:
+      - '@emnapi/core'
+      - '@emnapi/runtime'
+    optional: true
+
   '@astrojs/compiler-binding-wasm32-wasi@0.4.1(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)':
     dependencies:
       '@napi-rs/wasm-runtime': 1.2.4(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)
@@ -10727,6 +10735,23 @@ snapshots:
     optional: true
 
   '@astrojs/compiler-binding-win32-x64-msvc@0.5.1':
+    optional: true
+
+  '@astrojs/compiler-binding@0.4.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)':
+    optionalDependencies:
+      '@astrojs/compiler-binding-android-arm64': 0.4.1
+      '@astrojs/compiler-binding-darwin-arm64': 0.4.1
+      '@astrojs/compiler-binding-darwin-x64': 0.4.1
+      '@astrojs/compiler-binding-linux-arm64-gnu': 0.4.1
+      '@astrojs/compiler-binding-linux-arm64-musl': 0.4.1
+      '@astrojs/compiler-binding-linux-x64-gnu': 0.4.1
+      '@astrojs/compiler-binding-linux-x64-musl': 0.4.1
+      '@astrojs/compiler-binding-wasm32-wasi': 0.4.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)
+      '@astrojs/compiler-binding-win32-arm64-msvc': 0.4.1
+      '@astrojs/compiler-binding-win32-x64-msvc': 0.4.1
+    transitivePeerDependencies:
+      - '@emnapi/core'
+      - '@emnapi/runtime'
     optional: true
 
   '@astrojs/compiler-binding@0.4.1(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)':
@@ -10758,6 +10783,14 @@ snapshots:
       '@astrojs/compiler-binding-win32-arm64-msvc': 0.5.1
       '@astrojs/compiler-binding-win32-x64-msvc': 0.5.1
 
+  '@astrojs/compiler-rs@0.4.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)':
+    dependencies:
+      '@astrojs/compiler-binding': 0.4.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)
+    transitivePeerDependencies:
+      - '@emnapi/core'
+      - '@emnapi/runtime'
+    optional: true
+
   '@astrojs/compiler-rs@0.4.1(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)':
     dependencies:
       '@astrojs/compiler-binding': 0.4.1(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)
@@ -10780,7 +10813,7 @@ snapshots:
       smol-toml: 1.9.0
       unified: 11.0.5
 
-  '@astrojs/language-server@2.17.1(@emnapi/runtime@1.11.3)(@typescript/typescript6@6.0.2)(prettier-plugin-astro@1.1.0(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(prettier@3.9.9))(prettier@3.9.9)':
+  '@astrojs/language-server@2.17.1(@emnapi/runtime@1.11.3)(@typescript/typescript6@6.0.2)(prettier-plugin-astro@1.1.0(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(prettier@3.9.9))(prettier@3.9.9)':
     dependencies:
       '@astrojs/astro2tsx': 0.1.2(@emnapi/runtime@1.11.3)
       '@astrojs/yaml2ts': 0.2.4
@@ -10801,7 +10834,7 @@ snapshots:
       vscode-uri: 3.2.0
     optionalDependencies:
       prettier: 3.9.9
-      prettier-plugin-astro: 1.1.0(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(prettier@3.9.9)
+      prettier-plugin-astro: 1.1.0(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(prettier@3.9.9)
     transitivePeerDependencies:
       - '@emnapi/runtime'
       - typescript
@@ -12698,6 +12731,13 @@ snapshots:
     dependencies:
       '@emnapi/core': 1.11.1
       '@emnapi/runtime': 1.11.1
+      '@tybys/wasm-util': 0.10.4
+    optional: true
+
+  '@napi-rs/wasm-runtime@1.2.4(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)':
+    dependencies:
+      '@emnapi/core': 1.11.1
+      '@emnapi/runtime': 1.11.3
       '@tybys/wasm-util': 0.10.4
     optional: true
 
@@ -14640,7 +14680,7 @@ snapshots:
   compression-webpack-plugin@12.0.0(webpack@5.111.1):
     dependencies:
       schema-utils: 4.5.0
-      serialize-javascript: 7.1.2
+      serialize-javascript: 7.1.4
       webpack: 5.111.1(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(esbuild@0.28.2)(html-minifier-terser@6.1.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.5(@types/node@24.19.0))(svgo@4.1.0)(uglify-js@3.19.3)(webpack-cli@7.2.3)
 
   compression@1.8.2(supports-color@10.2.2):
@@ -14803,7 +14843,7 @@ snapshots:
       jest-worker: 30.5.1
       postcss: 8.5.28
       schema-utils: 4.5.0
-      serialize-javascript: 7.1.2
+      serialize-javascript: 7.1.4
       webpack: 5.111.1(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(esbuild@0.28.2)(html-minifier-terser@6.1.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.5(@types/node@24.19.0))(svgo@4.1.0)(uglify-js@3.19.3)(webpack-cli@7.2.3)
     optionalDependencies:
       clean-css: 5.3.3
@@ -19231,6 +19271,17 @@ snapshots:
 
   prelude-ls@1.2.1: {}
 
+  prettier-plugin-astro@1.1.0(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(prettier@3.9.9):
+    dependencies:
+      '@astrojs/compiler-rs': 0.4.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)
+      '@prettier/parse-srcset': 3.1.0
+      prettier: 3.9.9
+      sass-formatter: 0.8.0
+    transitivePeerDependencies:
+      - '@emnapi/core'
+      - '@emnapi/runtime'
+    optional: true
+
   prettier-plugin-astro@1.1.0(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(prettier@3.9.9):
     dependencies:
       '@astrojs/compiler-rs': 0.4.1(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)
@@ -20384,7 +20435,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  serialize-javascript@7.1.2: {}
+  serialize-javascript@7.1.4: {}
 
   serve-index@1.9.2(supports-color@10.2.2):
     dependencies:
