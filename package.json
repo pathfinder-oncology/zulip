@@ -48,7 +48,7 @@
     "font-awesome": "^4.7.0",
     "font-subset-loader2": "^1.1.7",
     "ga-gtag": "^1.0.1",
-    "handlebars": "^4.7.2",
+    "handlebars": "^4.7.10",
     "handlebars-loader": "^1.7.1",
     "html-webpack-plugin": "^5.3.2",
     "intl-messageformat": "^12.1.2",
